@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel Insurance Request</title>
+</head>
+<body>
+    <h2>Request Travel Insurance</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.passport.label }} {{ form.passport() }}<br><br>
+        {{ form.email.label }} {{ form.email() }}<br><br>
+        {{ form.phone.label }} {{ form.phone() }}<br><br>
+        {{ form.destination.label }} {{ form.destination() }}<br><br>
+        {{ form.days.label }} {{ form.days() }}<br><br>
+        {{ form.city.label }} {{ form.city() }}<br><br>
+        {{ form.province.label }} {{ form.province() }}<br><br>
+        {{ form.submit() }}
+    </form>
+</body>
+</html>

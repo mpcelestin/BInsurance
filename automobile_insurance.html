@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Automobile Insurance Request</title>
+</head>
+<body>
+    <h2>Request Automobile Insurance</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.carte_rose.label }} {{ form.carte_rose() }}<br><br>
+        {{ form.ancient_card.label }} {{ form.ancient_card() }}<br><br>
+        {{ form.phone.label }} {{ form.phone() }}<br><br>
+        {{ form.city.label }} {{ form.city() }}<br><br>
+        {{ form.province.label }} {{ form.province() }}<br><br>
+        {{ form.submit() }}
+    </form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload Test</title>
+</head>
+<body>
+    <h2>Test File Upload</h2>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li style="color:green">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <label>Carte Rose:</label><br>
+        <input type="file" name="carte_rose"><br><br>
+        <label>Ancient Card:</label><br>
+        <input type="file" name="ancient_card"><br><br>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

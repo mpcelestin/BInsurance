@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+    <a href="{{ url_for('main.dashboard') }}">Back to User Dashboard</a>
+    <h3>All Automobile Insurance Requests</h3>
+    <ul>
+    {% for r in all_auto %}
+        <li>
+            <strong>User:</strong> {{ r.user.username }}<br>
+            <strong>Carte Rose:</strong>
+            {% if r.carte_rose_filename %}
+                <a href="{{ url_for('static', filename='uploads/' + r.carte_rose_filename) }}" target="_blank">View</a>
+            {% else %} Not uploaded {% endif %}<br>
+            <strong>Ancient Card:</strong>
+            {% if r.ancient_card_filename %}
+                <a href="{{ url_for('static', filename='uploads/' + r.ancient_card_filename) }}" target="_blank">View</a>
+            {% else %} Not uploaded {% endif %}<br>
+            <strong>Phone:</strong> {{ r.phone }}<br>
+            <strong>Location:</strong> {{ r.city }}, {{ r.province }}<br>
+            <strong>Submitted:</strong> {{ r.date_submitted.strftime('%Y-%m-%d %H:%M') }}<br>
+            <hr>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <h3>All Travel Insurance Requests</h3>
+    <ul>
+    {% for t in all_travel %}
+        <li>
+            <strong>User:</strong> {{ t.user.username }}<br>
+            <strong>Passport:</strong>
+            {% if t.passport_filename %}
+                <a href="{{ url_for('static', filename='uploads/' + t.passport_filename) }}" target="_blank">View</a>
+            {% else %} Not uploaded {% endif %}<br>
+            <strong>Email:</strong> {{ t.email }}<br>
+            <strong>Phone:</strong> {{ t.phone }}<br>
+            <strong>Destination:</strong> {{ t.destination }}<br>
+            <strong>Days:</strong> {{ t.days }}<br>
+            <strong>Location:</strong> {{ t.city }}, {{ t.province }}<br>
+            <strong>Submitted:</strong> {{ t.date_submitted.strftime('%Y-%m-%d %H:%M') }}<br>
+            <hr>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

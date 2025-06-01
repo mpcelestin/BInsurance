@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .request-card {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .document-link {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Welcome, {{ user.username }}</h2>
+                <p class="text-muted">Role: {{ user.role|capitalize }}</p>
+            </div>
+            <div>
+                <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger">Logout</a>
+                {% if user.role == 'admin' %}
+                    <a href="{{ url_for('main.admin_dashboard') }}" class="btn btn-warning">Admin Dashboard</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <h3>Request Insurance</h3>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('main.automobile_insurance') }}" class="btn btn-primary">Automobile Insurance</a>
+                    <a href="{{ url_for('main.travel_insurance') }}" class="btn btn-primary">Travel Insurance</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <!-- Automobile Insurance Requests -->
+            <div class="col-md-6">
+                <h3>Automobile Insurance Requests</h3>
+                {% if automobile_records %}
+                    {% for r in automobile_records %}
+                        <div class="request-card">
+                            <h5>Request #{{ r.id }}</h5>
+                            <p><strong>Carte Rose:</strong>
+                                {% if r.carte_rose_filename %}
+                                    <a href="{{ url_for('static', filename='uploads/' + r.carte_rose_filename) }}" 
+                                       target="_blank" class="document-link">View Document</a>
+                                {% else %}
+                                    <span class="text-danger">Not uploaded</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Ancient Card:</strong>
+                                {% if r.ancient_card_filename %}
+                                    <a href="{{ url_for('static', filename='uploads/' + r.ancient_card_filename) }}" 
+                                       target="_blank" class="document-link">View Document</a>
+                                {% else %}
+                                    <span class="text-danger">Not uploaded</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Phone:</strong> {{ r.phone }}</p>
+                            <p><strong>Location:</strong> {{ r.city }}, {{ r.province }}</p>
+                            <p><strong>Submitted:</strong> {{ r.date_submitted.strftime('%Y-%m-%d %H:%M') }}</p>
+                            
+                            <!-- Delete Button -->
+                            <form action="{{ url_for('main.delete_request', request_type='auto', request_id=r.id) }}" method="POST" class="mt-2">
+                                <button type="submit" class="btn btn-danger btn-sm" 
+                                        onclick="return confirm('Are you sure you want to delete this automobile insurance request?');">
+                                    Delete Request
+                                </button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">You haven't submitted any automobile insurance requests yet.</div>
+                {% endif %}
+            </div>
+
+            <!-- Travel Insurance Requests -->
+            <div class="col-md-6">
+                <h3>Travel Insurance Requests</h3>
+                {% if travel_records %}
+                    {% for t in travel_records %}
+                        <div class="request-card">
+                            <h5>Request #{{ t.id }}</h5>
+                            <p><strong>Passport:</strong>
+                                {% if t.passport_filename %}
+                                    <a href="{{ url_for('static', filename='uploads/' + t.passport_filename) }}" 
+                                       target="_blank" class="document-link">View Document</a>
+                                {% else %}
+                                    <span class="text-danger">Not uploaded</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Email:</strong> {{ t.email }}</p>
+                            <p><strong>Phone:</strong> {{ t.phone }}</p>
+                            <p><strong>Destination:</strong> {{ t.destination }}</p>
+                            <p><strong>Duration:</strong> {{ t.days }} days</p>
+                            <p><strong>Location:</strong> {{ t.city }}, {{ t.province }}</p>
+                            <p><strong>Submitted:</strong> {{ t.date_submitted.strftime('%Y-%m-%d %H:%M') }}</p>
+                            
+                            <!-- Delete Button -->
+                            <form action="{{ url_for('main.delete_request', request_type='travel', request_id=t.id) }}" method="POST" class="mt-2">
+                                <button type="submit" class="btn btn-danger btn-sm" 
+                                        onclick="return confirm('Are you sure you want to delete this travel insurance request?');">
+                                    Delete Request
+                                </button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">You haven't submitted any travel insurance requests yet.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

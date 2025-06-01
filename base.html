@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BInsurance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Flash Messages - Single optimized version -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h1>Welcome to BInsurance!</h1>
+        
+        <nav class="mb-4">
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="{{ url_for('main.register') }}" class="btn btn-outline-primary">Register</a></li>
+                <li class="list-inline-item"><a href="{{ url_for('main.login') }}" class="btn btn-outline-primary">Login</a></li>
+                <li class="list-inline-item"><a href="{{ url_for('main.automobile_insurance') }}" class="btn btn-outline-success">Auto Insurance</a></li>
+                <li class="list-inline-item"><a href="{{ url_for('main.travel_insurance') }}" class="btn btn-outline-success">Travel Insurance</a></li>
+            </ul>
+        </nav>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-dismiss alerts after 4 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 4000);
+            });
+        });
+    </script>
+</body>
+</html>
